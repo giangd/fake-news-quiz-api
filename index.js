@@ -20,6 +20,7 @@ app.get("/api/randomArticles/:num", async (req, res) => {
         useUnifiedTopology: true,
     });
     console.log("created mongo client...");
+    console.log("config.get('uri')", config.get("uri"));
 
     // console.log("/api/randomArticles/:num");
     // console.log(parseInt(req.params.num));
