@@ -1,21 +1,25 @@
+const config = require("config");
 const express = require("express");
 const axios = require("axios");
 const { MongoClient } = require("mongodb");
-const config = require("./config.json");
-const uri = config.uri;
-
 const app = express();
 require("./startup/loadProdModules")(app);
-const connectToDB = require("./startup/connectToDB");
+
+if (!config.get("uri")) {
+    console.error("fatal error: uri env variable not set, can't access db");
+    process.exit(1);
+}
 
 app.get("/", (req, res) => {
     res.send("hello fake news quiz api");
 });
 
 app.get("/api/randomArticles/:num", async (req, res) => {
-    const client = new MongoClient(uri, { useUnifiedTopology: true });
-    console.log("/api/randomArticles/:num");
-    console.log(parseInt(req.params.num));
+    const client = new MongoClient(config.get("uri"), {
+        useUnifiedTopology: true,
+    });
+    // console.log("/api/randomArticles/:num");
+    // console.log(parseInt(req.params.num));
 
     try {
         await client.connect();
