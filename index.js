@@ -15,17 +15,24 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/randomArticles/:num", async (req, res) => {
+    console.log("getting random articles...");
     const client = new MongoClient(config.get("uri"), {
         useUnifiedTopology: true,
     });
+    console.log("created mongo client...");
+
     // console.log("/api/randomArticles/:num");
     // console.log(parseInt(req.params.num));
 
     try {
         await client.connect();
+        console.log("connected to client!");
+
         const collection = await client
             .db("database1")
             .collection("article-9-24");
+
+        console.log("connected to db collections!");
 
         const result = await collection.aggregate([
             { $sample: { size: parseInt(req.params.num) } },
