@@ -5,6 +5,8 @@ const { MongoClient } = require("mongodb");
 const app = express();
 require("./startup/loadProdModules")(app);
 
+const collectionName = "aritcles-9-26";
+
 if (!config.get("uri")) {
     console.error("fatal error: uri env variable not set, can't access db");
     process.exit(1);
@@ -31,7 +33,7 @@ app.get("/api/randomArticles/:num", async (req, res) => {
 
         const collection = await client
             .db("database1")
-            .collection("article-9-24");
+            .collection(collectionName);
 
         console.log("connected to db collections!");
 
